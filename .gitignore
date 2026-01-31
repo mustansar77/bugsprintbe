@@ -1,0 +1,50 @@
+# 🔹 Node modules
+node_modules/
+
+# 🔹 Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 🔹 Environment variables (VERY IMPORTANT)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# 🔹 Next.js build files
+.next/
+out/
+
+# 🔹 Production build
+build/
+dist/
+
+# 🔹 Vercel
+.vercel
+
+# 🔹 OS files
+.DS_Store
+Thumbs.db
+
+# 🔹 IDE / Editor files
+.vscode/
+.idea/
+*.swp
+
+# 🔹 Coverage
+coverage/
+
+# 🔹 Temporary files
+tmp/
+temp/
+
+# 🔹 TypeScript cache
+*.tsbuildinfo
+
+# 🔹 ESLint cache
+.eslintcache
