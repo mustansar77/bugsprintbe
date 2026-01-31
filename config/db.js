@@ -1,13 +1,22 @@
-import mongoose from "mongoose";
+import User from "../models/User.js";
 
-const connectDB = async () => {
-  try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI);
-    console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
-  } catch (error) {
-    console.error("❌ Database connection failed:", error.message);
-    process.exit(1);
-  }
+const initSuperAdmin = async () => {
+  const adminEmail = process.env.ADMIN_EMAIL;
+  const adminPassword = process.env.ADMIN_PASSWORD;
+
+  const exists = await User.findOne({ email: adminEmail });
+  if (exists) return;
+
+  await User.create({
+    fullName: "Super Admin",
+    email: adminEmail,
+    password: adminPassword,
+    phone: "0000000000",
+    role: "admin",
+    referralCode: "ADMIN",
+  });
+
+  console.log("✅ Admin account created");
 };
 
-module.exports = connectDB;
+export default initSuperAdmin;

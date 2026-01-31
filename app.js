@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import initSuperAdmin from "./config/initSuperAdmin.js";
-import authRoutes from "./routes/authRoutes.js";
+import authRoutes from "./routes/userRoutes.js";
 
 dotenv.config();
 

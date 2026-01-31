@@ -1,5 +1,5 @@
-// models/User.js
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 
 const userSchema = new mongoose.Schema(
   {
@@ -32,4 +32,47 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// ✅ Use async function WITHOUT next()
+userSchema.pre("save", async function () {
+  if (this.isModified("password")) {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
+});
+
+// Compare password method
+userSchema.methods.comparePassword = function (password) {
+  return bcrypt.compare(password, this.password);
+};
+
+// Export the model (avoid recompiling)
 export default mongoose.models.User || mongoose.model("User", userSchema);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,5 +1,58 @@
-import app from "../app.js"; // where your express app is created
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import connectDB from "../config/db.js";
+import initAdmin from "../config/initSuperAdmin.js";
+import userRoute from "../routes/userRoutes.js"
 
-export default function handler(req, res) {
-  return app(req, res);
-}
+dotenv.config();
+
+const app = express();
+
+// ------------------ Database ------------------
+await connectDB();
+
+// ------------------ Middlewares ------------------
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+const allowedOrigins = [
+  "http://localhost:3000",             // Local Next.js frontend
+  "https://www.treazox.com",  // Vercel frontend
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like Postman) or from allowedOrigins
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true, // if you need cookies/auth
+  })
+);
+
+// ------------------ Routes ------------------
+
+
+app.use("/api/user",userRoute)
+
+
+
+
+
+
+// ------------------ Admin Init ------------------
+await initAdmin();
+
+// ------------------ Health Check ------------------
+app.get("/", (req, res) => {
+  res.json({ success: true, message: "Backend running on Vercel 🚀" });
+});
+
+
+export default app; // ESM export
